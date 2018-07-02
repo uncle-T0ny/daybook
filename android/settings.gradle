@@ -1,0 +1,3 @@
+rootProject.name = 'Daybook'
+
+include ':app'
