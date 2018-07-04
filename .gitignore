@@ -62,3 +62,6 @@ typings/
 
 # expo
 .expo/
+
+#JetBrains
+.idea
