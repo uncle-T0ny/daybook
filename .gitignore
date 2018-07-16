@@ -83,5 +83,6 @@ ios/build/
 
 #android
 build/
+local.properties
 *.gradle
 *.iml
