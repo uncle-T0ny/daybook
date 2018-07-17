@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native';
 import { Provider } from 'react-redux';
 import {
   RadioButton,
@@ -17,6 +17,10 @@ import {
   BottomNavigationAction
 } from 'react-native-material-ui';
 
+import Daybook from './src/components/Daybook';
+import Subjects from './src/components/Subjects';
+import Teachers from './src/components/Teachers';
+import Settings from './src/components/Settings';
 import { configureStore } from './src/store.js';
 import { bindAppActions, appReduxActions } from './src/reducers/appReducer.js';
 
@@ -24,11 +28,17 @@ const store = configureStore();
 
 bindAppActions(store.dispatch);
 
+const screens = {
+  daybook: 'daybook',
+  subjects: 'subjects',
+  teachers: 'teachers',
+  settings: 'settings'
+}
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: 'today',
+      active: screens.daybook,
       navIndex: 0
     }
   }
@@ -37,49 +47,63 @@ export default class App extends React.Component {
     appReduxActions.appStarted();
   }
 
+  getScreenComponent(){
+    switch(this.state.active){
+      case screens.daybook :
+        return <Daybook/>
+      case screens.subjects :
+        return <Subjects/>
+      case screens.teachers :
+        return <Teachers/>
+      case screens.settings :
+        return <Settings/>
+      default:
+        return <Daybook/>
+    }
+
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <View style={{flex:1}}>
-            <View style={{flex: 1}}>
+        <SafeAreaView style={styles.basicFlex}>
+            <View style={styles.basicFlex}>
+              {this.getScreenComponent()}
             </View>
-            <BottomNavigation active={this.state.active} hidden={false} style={{flex: 1}}>
+            <BottomNavigation active={this.state.active} hidden={false}>
               <BottomNavigation.Action
-                key="today"
+                key={screens.daybook}
                 icon="assignment"
-                label="Today"
-                onPress={() => this.setState({ active: 'today' })}
+                label="Daybook"
+                onPress={() => this.setState({ active: screens.daybook })}
               />
               <BottomNavigation.Action
-                key="subjects"
+                key={screens.subjects}
                 icon="book"
                 label="Subjects"
-                onPress={() => this.setState({ active: 'subjects' })}
+                onPress={() => this.setState({ active: screens.subjects })}
               />
               <BottomNavigation.Action
-                key="teachers"
+                key={screens.teachers}
                 icon="school"
                 label="Teachers"
-                onPress={() => this.setState({ active: 'teachers' })}
+                onPress={() => this.setState({ active: screens.teachers })}
               />
               <BottomNavigation.Action
-                key="settings"
+                key={screens.settings}
                 icon="settings"
                 label="Settings"
-                onPress={() => this.setState({ active: 'settings' })}
+                onPress={() => this.setState({ active: screens.settings })}
               />
             </BottomNavigation>
-        </View>
+        </SafeAreaView>
       </Provider>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  basicFlex: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
