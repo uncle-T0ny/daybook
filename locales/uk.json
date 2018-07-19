@@ -1,0 +1,14 @@
+{
+  "Daybook" : {
+    "title": "Щоденник"
+  },
+  "Settings" : {
+    "title": "Налаштування"
+  },
+  "Subjects" : {
+    "title": "Предмети"
+  },
+  "Teachers" : {
+    "title": "Викладачі"
+  }
+}
