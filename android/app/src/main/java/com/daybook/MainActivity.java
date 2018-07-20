@@ -1,6 +1,10 @@
 package com.daybook;
 
 import com.facebook.react.ReactActivity;
+import android.os.Bundle;
+import android.content.res.Configuration;
+import com.facebook.react.ReactNativeHost;
+import com.facebook.react.ReactInstanceManager;
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +15,25 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "Daybook";
+    }
+
+    static String currentLocale;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MainActivity.currentLocale = getResources().getConfiguration().locale.toString();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        String locale = newConfig.locale.toString();
+        if (!MainActivity.currentLocale.equals(locale)) {
+            MainActivity.currentLocale = locale;
+            final ReactInstanceManager instanceManager = getReactInstanceManager();
+            instanceManager.recreateReactContextInBackground();
+        }
     }
 }

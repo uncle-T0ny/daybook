@@ -1,0 +1,14 @@
+{
+  "Daybook" : {
+    "title": "Дневник"
+  },
+  "Settings" : {
+    "title": "Настройки"
+  },
+  "Subjects" : {
+    "title": "Предметы"
+  },
+  "Teachers" : {
+    "title": "Преподаватели"
+  }
+}
