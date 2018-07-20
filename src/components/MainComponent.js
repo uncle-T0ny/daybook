@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
-
 import {
-  RadioButton,
-  Avatar,
-  Divider,
-  ListItem,
-  Subheader,
-  Toolbar,
-  ActionButton,
-  Card,
-  IconToggle,
-  Badge,
-  Icon,
   BottomNavigation,
   BottomNavigationAction
 } from 'react-native-material-ui';
@@ -21,6 +9,7 @@ import Daybook from './Daybook';
 import Subjects from './Subjects';
 import Teachers from './Teachers';
 import Settings from './Settings';
+import { strings } from '../functions/i18n';
 
 const screens = {
   daybook: 'daybook',
@@ -63,25 +52,25 @@ export default class MainComponent extends Component {
           <BottomNavigation.Action
             key={screens.daybook}
             icon="assignment"
-            label="Daybook"
+            label={strings('Navigation.Daybook')}
             onPress={() => this.setState({ active: screens.daybook })}
           />
           <BottomNavigation.Action
             key={screens.subjects}
             icon="book"
-            label="Subjects"
+            label={strings('Navigation.Subjects')}
             onPress={() => this.setState({ active: screens.subjects })}
           />
           <BottomNavigation.Action
             key={screens.teachers}
             icon="school"
-            label="Teachers"
+            label={strings('Navigation.Teachers')}
             onPress={() => this.setState({ active: screens.teachers })}
           />
           <BottomNavigation.Action
             key={screens.settings}
             icon="settings"
-            label="Settings"
+            label={strings('Navigation.Settings')}
             onPress={() => this.setState({ active: screens.settings })}
           />
         </BottomNavigation>

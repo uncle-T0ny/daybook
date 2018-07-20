@@ -10,5 +10,11 @@
   },
   "Teachers" : {
     "title": "Викладачі"
+  },
+  "Navigation": {
+    "Daybook": "Щоденник",
+    "Settings": "Налаштування",
+    "Subjects": "Предмети",
+    "Teachers": "Викладачі"
   }
 }

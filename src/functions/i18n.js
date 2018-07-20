@@ -1,6 +1,4 @@
-import ReactNative, {Settings, AsyncStorage} from 'react-native';
 import I18n from 'react-native-i18n';
-
 
 // Import all locales
 import en from '../../locales/en.json';
@@ -17,17 +15,6 @@ I18n.translations = {
   ru,
 };
 
-const currentLocale = I18n.currentLocale();
-console.log(currentLocale);
-
-// Is it a RTL language?
-export const isRTL = currentLocale.indexOf('he') === 0 || currentLocale.indexOf('ar') === 0;
-
-// Allow RTL alignment in RTL languages
-ReactNative.I18nManager.allowRTL(isRTL);
-
 export function strings(name, params = {}) {
   return I18n.t(name, params);
 };
-
-export default I18n;

@@ -10,5 +10,11 @@
   },
   "Teachers" : {
     "title": "Teachers"
+  },
+  "Navigation": {
+    "Daybook": "Daybook",
+    "Settings": "Settings",
+    "Subjects": "Subjects",
+    "Teachers": "Teachers"
   }
 }
