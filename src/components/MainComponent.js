@@ -16,7 +16,8 @@ const screens = {
   subjects: 'subjects',
   teachers: 'teachers',
   settings: 'settings'
-}
+};
+
 
 export default class MainComponent extends Component {
   constructor(props) {
@@ -27,23 +28,23 @@ export default class MainComponent extends Component {
     }
   }
 
-  getScreenComponent(){
+  getScreenComponent() {
     switch (this.state.active) {
       case screens.daybook:
-        return <Daybook/>
+        return <Daybook/>;
       case screens.subjects:
-        return <Subjects/>
+        return <Subjects/>;
       case screens.teachers:
-        return <Teachers/>
+        return <Teachers/>;
       case screens.settings:
-        return <Settings/>
+        return <Settings/>;
       default:
-        return <Daybook/>
+        return <Daybook/>;
     }
-
   }
-  render(){
-    return(
+
+  render() {
+    return (
       <SafeAreaView style={styles.basicFlex}>
         <View style={styles.basicFlex}>
           {this.getScreenComponent()}
