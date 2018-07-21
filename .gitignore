@@ -82,5 +82,7 @@ ios/build/
 *.xcuserstate
 
 #android
+build/
+local.properties
 *.gradle
 *.iml

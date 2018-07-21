@@ -1,0 +1,20 @@
+{
+  "Daybook" : {
+    "title": "Daybook"
+  },
+  "Settings" : {
+    "title": "Settings"
+  },
+  "Subjects" : {
+    "title": "Subjects"
+  },
+  "Teachers" : {
+    "title": "Teachers"
+  },
+  "Navigation": {
+    "Daybook": "Daybook",
+    "Settings": "Settings",
+    "Subjects": "Subjects",
+    "Teachers": "Teachers"
+  }
+}
