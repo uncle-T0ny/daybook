@@ -35,6 +35,7 @@ export default class AddSubject extends Component {
       <View style={styles.container}>
         <Divider/>
         <Input autoFocus={true} style={styles.input}
+               value={this.props.newSubjectName}
                placeholder={strings('Subjects.subject')}
                onChange={(value) => subjectsActions.updateState({ newSubjectName: value })}/>
         <Button style={buttonStyle}
