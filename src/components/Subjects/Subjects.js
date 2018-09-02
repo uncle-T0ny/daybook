@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { ActionButton, ListItem, Button } from 'react-native-material-ui';
 
-import AddSubject from './AddSubject';
+import AddSubject, { actions } from './AddEditSubject';
 import { subjectsActions } from './../../reducers/subjectsReducer';
 
 import { strings } from './../../functions/i18n';
@@ -13,7 +13,7 @@ import { strings } from './../../functions/i18n';
 function mapStateToProps(state) {
   return {
     subjects: state.subjects.list,
-    isAddingSubject: state.subjects.isAddingSubject
+    subjectAction: state.subjects.subjectAction
   };
 }
 
@@ -22,27 +22,30 @@ export default class Subjects extends Component {
   constructor() {
     super();
     this.state = {
-      isAddingSubject: false,
       pressedSubjectId: -1
     };
   }
 
-  static defaultProps = {
-    isAddingSubject: false,
-    subjects: []
+  static propTypes = {
+    subjects: PropTypes.array,
+    subjectAction: PropTypes.oneOf(Object.keys(actions))
   };
 
-  static propTypes = {
-    isAddingSubject: PropTypes.bool,
-    subjects: PropTypes.array
+  static defaultProps = {
+    subjects: [],
+    subjectAction: actions.add
   };
 
   onItemLongPress(subjectId) {
     this.setState({ pressedSubjectId: subjectId });
   }
 
+  editSubject(subjectName) {
+    subjectsActions.updateState({ subjectAction: actions.edit, subjectName });
+  }
+
   deleteSubject(subjectId) {
-    subjectsActions.deleteSubject(subjectId)
+    subjectsActions.deleteSubject(subjectId);
   }
 
   render() {
@@ -52,7 +55,7 @@ export default class Subjects extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>{strings('Subjects.title')}</Text>
 
-        {this.props.isAddingSubject && <AddSubject/>}
+        <AddSubject subjectId={this.state.pressedSubjectId}/>
 
         <ScrollView>
           {subjects.map((subject, i) => {
@@ -61,16 +64,18 @@ export default class Subjects extends Component {
                              centerElement={{ primaryText: subject.name }}
                              onLongPress={(item) => this.onItemLongPress(subject.id)}
                              rightElement={this.state.pressedSubjectId === subject.id ? (
-                               <Button onPress={() => this.deleteSubject(subject.id)} accent icon="close" text={strings('Subjects.delete')} />
-                             ) : null}
-                             onPress={() => {}}/>
-          })
-          }
+                               <View style={styles.actionButtons}>
+                                 <Button onPress={() => this.editSubject(subject.name)} accent icon="edit" text=""/>
+                                 <Button onPress={() => this.deleteSubject(subject.id)} accent icon="delete" text=""/>
+                               </View>
+                             ) : null}/>
+          })}
         </ScrollView>
 
 
-        <ActionButton onPress={() => subjectsActions.updateState({ isAddingSubject: !this.props.isAddingSubject })}
-                      icon={this.props.isAddingSubject ? 'close' : 'add'}/>
+        <ActionButton
+          onPress={() => subjectsActions.updateState({ subjectAction: this.props.subjectAction === actions.add ? actions.nope : actions.add })}
+                      icon={this.props.subjectAction === actions.add ? 'close' : 'add'}/>
       </View>
     );
   }
@@ -83,5 +88,9 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: 'center',
     fontSize: 25
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end'
   }
 });

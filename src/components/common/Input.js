@@ -4,15 +4,7 @@ import PropTypes from 'prop-types';
 import { TextInput, StyleSheet } from 'react-native';
 
 
-export default class Input extends Component {
-  constructor() {
-    super();
-    this.state = {
-      value: ''
-    }
-  }
-
-  static propTypes = {
+export default class Input extends Component {static propTypes = {
     autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
     style: ViewPropTypes.style,
@@ -31,7 +23,7 @@ export default class Input extends Component {
                       placeholder={this.props.placeholder}
                       style={[styles.input, this.props.style]}
                       onChangeText={this.props.onChange}
-                      value={this.state.value}/>;
+                      value={this.props.value}/>;
   }
 }
 
