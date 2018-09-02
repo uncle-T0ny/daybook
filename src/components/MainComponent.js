@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { View, SafeAreaView, StyleSheet } from 'react-native';
 import {
   BottomNavigation,
-  BottomNavigationAction
+  BottomNavigationAction,
+  COLOR,
+  ThemeContext,
+  getTheme,
 } from 'react-native-material-ui';
 
 import Daybook from './Daybook';
@@ -18,6 +21,22 @@ const screens = {
   settings: 'settings'
 };
 
+
+const uiTheme = {
+  palette: {
+    primaryColor: COLOR.green500,
+  },
+  listItem: {
+    container: {
+      height: 6,
+    },
+  },
+  subheader:{
+    container: {
+      backgroundColor: COLOR.grey300,
+    },
+  }
+};
 
 export default class MainComponent extends Component {
   constructor(props) {
@@ -45,37 +64,45 @@ export default class MainComponent extends Component {
 
   render() {
     return (
-      <SafeAreaView style={styles.basicFlex}>
-        <View style={styles.basicFlex}>
-          {this.getScreenComponent()}
-        </View>
-        <BottomNavigation active={this.state.active} hidden={false}>
-          <BottomNavigation.Action
-            key={screens.daybook}
-            icon="assignment"
-            label={strings('Navigation.Daybook')}
-            onPress={() => this.setState({ active: screens.daybook })}
-          />
-          <BottomNavigation.Action
-            key={screens.subjects}
-            icon="book"
-            label={strings('Navigation.Subjects')}
-            onPress={() => this.setState({ active: screens.subjects })}
-          />
-          <BottomNavigation.Action
-            key={screens.teachers}
-            icon="school"
-            label={strings('Navigation.Teachers')}
-            onPress={() => this.setState({ active: screens.teachers })}
-          />
-          <BottomNavigation.Action
-            key={screens.settings}
-            icon="settings"
-            label={strings('Navigation.Settings')}
-            onPress={() => this.setState({ active: screens.settings })}
-          />
-        </BottomNavigation>
-      </SafeAreaView>
+      <ThemeContext.Provider value={getTheme(uiTheme)}>
+        <SafeAreaView style={styles.basicFlex}>
+          <View style={styles.basicFlex}>
+            {this.getScreenComponent()}
+          </View>
+          <BottomNavigation active={this.state.active} hidden={false}
+                            theme1={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
+          >
+            <BottomNavigation.Action
+              key={screens.daybook}
+              icon="assignment"
+              label={strings('Navigation.Daybook')}
+              onPress={() => this.setState({ active: screens.daybook })}
+              theme={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
+            />
+            <BottomNavigation.Action
+              key={screens.subjects}
+              icon="book"
+              label={strings('Navigation.Subjects')}
+              onPress={() => this.setState({ active: screens.subjects })}
+              theme={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
+            />
+            <BottomNavigation.Action
+              key={screens.teachers}
+              icon="school"
+              label={strings('Navigation.Teachers')}
+              onPress={() => this.setState({ active: screens.teachers })}
+              theme={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
+            />
+            <BottomNavigation.Action
+              key={screens.settings}
+              icon="settings"
+              label={strings('Navigation.Settings')}
+              onPress={() => this.setState({ active: screens.settings })}
+              theme={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
+            />
+          </BottomNavigation>
+        </SafeAreaView>
+      </ThemeContext.Provider>
     );
   }
 }

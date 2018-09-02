@@ -1,14 +1,68 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
+import { Toolbar, Icon, ListItem } from 'react-native-material-ui';
 
 import { strings } from '../functions/i18n';
+import constants from '../constants';
+import getColorForItems from "../functions/getColorForItems";
+
+const iconStyle = constants.iconStyle;
 
 
 export default class Teachers extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>{strings('Teachers.title')}</Text>
+        <Toolbar
+          centerElement={strings('Teachers.title')}
+          style={{centerElementContainer: styles.centerElementStyle}}
+        />
+        <FlatList
+
+          renderItem={({item, index}) =>
+            <ListItem
+              key={index}
+              dense={true}
+              divider
+              style={{centerElementContainer: {marginLeft: 10, paddingLeft: 10, borderLeftColor: getColorForItems(index), borderLeftWidth: 2}}}
+              centerElement={{
+                primaryText: `${item.surname} ${item.firstName} ${item.patronymic}`
+              }}
+              rightElement={
+                <View style={styles.rightElement}>
+                  <TouchableOpacity style={styles.rightElementButton}>
+                    <Icon
+                      name={'create'}
+                      style={iconStyle}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.rightElementButton}>
+                    <Icon
+                      name={'delete'}
+                      style={iconStyle}
+                    />
+                  </TouchableOpacity>
+                </View>
+              }
+              onPress={() => {}}
+            />
+          }
+
+          data={[
+            {id: 1, firstName: 'Olga', patronymic: 'Volodymyrivna', surname: 'Svitlichnaya'},
+            {id: 2, firstName: 'Igor', patronymic: 'Bogdanovich', surname: 'Mychailov'},
+            {id: 3, firstName: 'Helena', patronymic: 'Ivanovna', surname: 'Kovalenko'},
+            {id: 4, firstName: 'Alex', patronymic: 'Igorevich', surname: 'Bondarev'},
+            {id: 5, firstName: 'Mariya', patronymic: 'Volodymyrivna', surname: 'Beketova'},
+            {id: 6, firstName: 'Tatyana', patronymic: 'Ivanovna', surname: 'Yarkaya'},
+          ]}
+          keyExtractor={(item, index) => item.id.toString()}
+        />
       </View>
     );
   }
@@ -18,8 +72,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  title: {
-    alignSelf: 'center',
-    fontSize: 25
+  rightElement: {
+    flexDirection: 'row'
+  },
+  rightElementButton: {
+    marginRight: 10,
+    marginLeft: 10
   }
 });

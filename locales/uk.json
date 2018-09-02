@@ -1,6 +1,8 @@
 {
   "Daybook" : {
-    "title": "Щоденник"
+    "title": "Щоденник",
+    "editShedule": "Розклад",
+    "setAssigns": "Завдання"
   },
   "Settings" : {
     "title": "Налаштування"
