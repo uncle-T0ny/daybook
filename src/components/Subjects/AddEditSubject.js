@@ -8,38 +8,61 @@ import Input from './../../components/common/Input';
 import { strings } from './../../functions/i18n';
 import { subjectsActions } from './../../reducers/subjectsReducer';
 
+export const actions = {
+  add: 'add',
+  edit: 'edit',
+  nope: 'nope'
+};
 
 function mapStateToProps(state) {
   return {
-    newSubjectName: state.subjects.newSubjectName,
+    subjectName: state.subjects.subjectName,
+    subjectAction: state.subjects.subjectAction
   };
 }
 
 @connect(mapStateToProps)
-export default class AddSubject extends Component {
-  static defaultProps = {
-    newSubjectName: ''
-  };
-
+export default class AddEditSubject extends Component {
   static propTypes = {
-    newSubjectName: PropTypes.string
+    subjectName: PropTypes.string,
+    subjectId: PropTypes.number,
+    subjectAction: PropTypes.oneOf(Object.keys(actions))
   };
 
-  addSubject() {
-    subjectsActions.addSubject(this.props.newSubjectName);
-    subjectsActions.updateState({ isAddingSubject: false, newSubjectName: '' });
+  static defaultProps = {
+    subjectName: '',
+    subjectId: -1,
+    subjectAction: actions.add
+  };
+
+  addEditSubject() {
+    const { subjectAction, subjectName, subjectId } = this.props;
+    if (subjectAction === actions.add) {
+      subjectsActions.addSubject(subjectName);
+    }
+
+    if (subjectAction === actions.edit) {
+      subjectsActions.editSubject(subjectId, subjectName);
+    }
+
+    subjectsActions.updateState({ subjectAction: actions.nope, subjectName: '' });
   }
 
   render() {
+    if (this.props.subjectAction === actions.nope) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <Divider/>
         <Input autoFocus={true} style={styles.input}
                value={this.props.newSubjectName}
                placeholder={strings('Subjects.subject')}
-               onChange={(value) => subjectsActions.updateState({ newSubjectName: value })}/>
+               value={this.props.subjectName}
+               onChange={(value) => subjectsActions.updateState({ subjectName: value })}/>
         <Button style={buttonStyle}
-                onPress={() => this.addSubject()}
+                onPress={() => this.addEditSubject()}
                 raised
                 primary
                 text={strings('Common.save')}/>

@@ -10,8 +10,7 @@
   },
   "Subjects" : {
     "title": "Subjects",
-    "subject": "Subject",
-    "delete": "Delete"
+    "subject": "Subject"
   },
   "Teachers" : {
     "title": "Teachers"

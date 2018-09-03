@@ -2,11 +2,16 @@ import { bindActionCreators } from 'redux';
 import R from 'ramda';
 
 import { subjectActions } from './../saga/actions.js';
+import { actions } from './../components/Subjects/AddEditSubject';
 
 
 export let subjectsActions = {
   addSubject(name) {
     return { type: subjectActions.ADD_SUBJECT, name };
+  },
+
+  editSubject(id, name) {
+    return { type: subjectActions.EDIT_SUBJECT, id, name };
   },
 
   deleteSubject(id) {
@@ -23,8 +28,8 @@ export function bindSubjectActions(dispatch) {
 }
 
 const initState = {
-  isAddingSubject: false,
-  newSubjectName: '',
+  subjectAction: actions.nope,
+  subjectName: '',
 
   // [{ id: Date.now(), name: 'Teacher name' }]
   list: []
@@ -39,6 +44,16 @@ export function subjectsReducer(state = initState, action) {
       return {
         ...state,
         list: newList
+      };
+    case subjectActions.EDIT_SUBJECT:
+      const editedList = R.curry(() => R.map(
+        R.when(R.propEq('id', action.id), R.assoc('name', action.name)),
+        state.list
+      ))();
+
+      return {
+        ...state,
+        list: editedList
       };
     case subjectActions.DELETE_SUBJECT:
       return {
