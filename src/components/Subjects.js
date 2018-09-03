@@ -5,7 +5,12 @@ import {
   TouchableOpacity,
   FlatList, Text
 } from 'react-native';
-import { Toolbar, Icon, ListItem } from 'react-native-material-ui';
+import {
+  Toolbar,
+  Icon,
+  ListItem,
+  ActionButton
+} from 'react-native-material-ui';
 
 import { strings } from '../functions/i18n';
 import constants from '../constants';
@@ -66,6 +71,11 @@ export default class Subjects extends Component {
             {id: 8, name: 'geometry'},
           ]}
           keyExtractor={(item, index) => item.id.toString()}
+        />
+        <ActionButton
+          onPress={() => {}}
+          icon={'add'}
+
         />
       </View>
     );
