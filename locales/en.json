@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "save": "Save"
+  },
   "Daybook" : {
     "title": "Daybook",
     "editShedule": "Edit shedule",
@@ -8,7 +11,8 @@
     "title": "Settings"
   },
   "Subjects" : {
-    "title": "Subjects"
+    "title": "Subjects",
+    "subject": "Subject"
   },
   "Teachers" : {
     "title": "Teachers"

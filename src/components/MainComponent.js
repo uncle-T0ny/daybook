@@ -9,7 +9,7 @@ import {
 } from 'react-native-material-ui';
 
 import Daybook from './Daybook';
-import Subjects from './Subjects';
+import Subjects from './Subjects/Subjects';
 import Teachers from './Teachers';
 import Settings from './Settings';
 import { strings } from '../functions/i18n';
@@ -42,7 +42,7 @@ export default class MainComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: screens.daybook,
+      active: screens.subjects,
       navIndex: 0
     }
   }

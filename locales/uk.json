@@ -1,4 +1,7 @@
 {
+  "Common": {
+    "save": "Зберігти"
+  },
   "Daybook" : {
     "title": "Щоденник",
     "editShedule": "Розклад",
@@ -8,7 +11,8 @@
     "title": "Налаштування"
   },
   "Subjects" : {
-    "title": "Предмети"
+    "title": "Предмети",
+    "delete": "Видалити"
   },
   "Teachers" : {
     "title": "Викладачі"
