@@ -1,11 +1,21 @@
 {
   "Common": {
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "close": "Закрыть"
   },
   "Daybook" : {
     "title": "Дневник",
     "editShedule": "Расписание",
-    "setAssigns": "Задания"
+    "setAssigns": "Задания",
+    "date": "дата",
+    "time": "время",
+    "subject": "предмет",
+    "room": "кабинет",
+    "roomPlaceholder": "укажите номер кабинета",
+    "addSubject": "еще предмет",
+    "tapToSelect": "нажмите для выбора",
+    "addTitle": "Новый урок",
+    "editTitle": "Редактировать расписание"
   },
   "Settings" : {
     "title": "Настройки"
@@ -22,5 +32,14 @@
     "Settings": "Настройки",
     "Subjects": "Предметы",
     "Teachers": "Преподаватели"
+  },
+  "WeekDays": {
+    "Sunday": "Воскресенье",
+    "Monday": "Понедельник",
+    "Tuesday": "Вторник",
+    "Wednesday": "Среда",
+    "Thursday": "Четверг",
+    "Friday": "Пятница",
+    "Saturday": "Суббота",
   }
 }

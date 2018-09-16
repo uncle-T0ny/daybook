@@ -1,11 +1,21 @@
 {
   "Common": {
-    "save": "Save"
+    "save": "Save",
+    "close": "Close"
   },
   "Daybook" : {
     "title": "Daybook",
     "editShedule": "Edit shedule",
-    "setAssigns": "Set assignments"
+    "setAssigns": "Set assignments",
+    "date": "date",
+    "time": "time",
+    "subject": "subject",
+    "room": "room",
+    "roomPlaceholder": "type room number",
+    "addSubject": "add subject",
+    "tapToSelect": "tap to select",
+    "addTitle": "Add new subject",
+    "editTitle": "Edit schedule"
   },
   "Settings" : {
     "title": "Settings"
@@ -22,5 +32,15 @@
     "Settings": "Settings",
     "Subjects": "Subjects",
     "Teachers": "Teachers"
+  },
+  "WeekDays": {
+    "Sunday": "Sunday",
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
   }
+
 }

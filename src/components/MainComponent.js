@@ -8,7 +8,7 @@ import {
   getTheme,
 } from 'react-native-material-ui';
 
-import Daybook from './Daybook';
+import Daybook from './Daybook/Daybook';
 import Subjects from './Subjects/Subjects';
 import Teachers from './Teachers';
 import Settings from './Settings';

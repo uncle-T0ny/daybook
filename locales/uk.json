@@ -1,11 +1,21 @@
 {
   "Common": {
-    "save": "Зберігти"
+    "save": "Зберігти",
+    "close": "Закрити"
   },
   "Daybook" : {
     "title": "Щоденник",
     "editShedule": "Розклад",
-    "setAssigns": "Завдання"
+    "setAssigns": "Завдання",
+    "date": "дата",
+    "time": "час",
+    "subject": "предмет",
+    "room": "кабінет",
+    "roomPlaceholder": "вкажіть номер кабінету",
+    "addSubject": "додати предмет",
+    "tapToSelect": "натисніть для вибору",
+    "addTitle": "Новий урок",
+    "editTitle": "Редагувати розклад"
   },
   "Settings" : {
     "title": "Налаштування"
@@ -22,5 +32,14 @@
     "Settings": "Налаштування",
     "Subjects": "Предмети",
     "Teachers": "Викладачі"
+  },
+  "WeekDays": {
+    "Sunday": "Неділя",
+    "Monday": "Понеділок",
+    "Tuesday": "Вівторок",
+    "Wednesday": "Середа",
+    "Thursday": "Четвер",
+    "Friday": "П'ятниця",
+    "Saturday": "Субота"
   }
 }

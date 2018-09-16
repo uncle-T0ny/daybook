@@ -32,7 +32,20 @@ const initState = {
   subjectName: '',
 
   // [{ id: Date.now(), name: 'Teacher name' }]
-  list: []
+  list: [
+    {id: 1, name: 'Music'},
+    {id: 2, name: 'English'},
+    {id: 3, name: 'History'},
+    {id: 4, name: 'Literacy'},
+    {id: 5, name: 'Algebra'},
+    {id: 6, name: 'Geometry'},
+    {id: 7, name: 'Physics'},
+    {id: 8, name: 'Chemistry'},
+    {id: 9, name: 'British literacy'},
+    {id: 10, name: 'Law'},
+    {id: 11, name: 'Ukrainian'},
+  ]
+
 };
 
 export function subjectsReducer(state = initState, action) {
