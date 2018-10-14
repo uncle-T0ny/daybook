@@ -28,7 +28,7 @@ const bottomNavHeight = Platform.OS === 'ios' ? 56 : 85;
 const uiTheme = {
   actionButton: {
     positionContainer: {
-      bottom: Platform.OS === 'ios' ? 20 : bottomNavHeight + 20
+      bottom: bottomNavHeight + 20
     }
   },
   palette: {
