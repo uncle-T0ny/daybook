@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   FlatList
 } from 'react-native';
-import { Toolbar, Icon, ListItem } from 'react-native-material-ui';
+import { Toolbar, Icon, ListItem, Button, COLOR } from 'react-native-material-ui';
 
 import { strings } from '../functions/i18n';
 import constants from '../constants';
@@ -15,11 +15,23 @@ const iconStyle = constants.iconStyle;
 
 
 export default class Teachers extends Component {
+
+  addElement(){
+
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Toolbar
           centerElement={strings('Teachers.title')}
+          rightElement={
+            <Button
+              text={strings('Teachers.addTeacher')}
+              style={{container: styles.addTeacherButton, text: styles.addTeacherButtonText}}
+              onPress={() => this.addElement()}
+            />
+          }
           style={{centerElementContainer: styles.centerElementStyle}}
         />
         <FlatList
@@ -75,8 +87,11 @@ const styles = StyleSheet.create({
   rightElement: {
     flexDirection: 'row'
   },
-  rightElementButton: {
-    marginRight: 10,
-    marginLeft: 10
+  addTeacherButton: {
+    marginHorizontal: 5,
+    backgroundColor: "#fff",
+  },
+  addTeacherButtonText: {
+    color: COLOR.green400
   }
 });

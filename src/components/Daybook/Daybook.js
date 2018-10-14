@@ -7,16 +7,17 @@ import {
   TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Toolbar, ListItem, Icon, COLOR } from 'react-native-material-ui';
+import {Toolbar, ListItem, Icon, COLOR, Button} from 'react-native-material-ui';
 import CalendarStrip from 'react-native-calendar-strip';
 
-import { strings } from '../../functions/i18n';
+import {strings, getWeekDay} from '../../functions/i18n';
 import SegmentedControl from '../SegmentedControl';
 import constants from '../../constants';
-import { connect } from "react-redux";
-import { daybook_Actions } from '../../reducers/daybookReducer';
-import AddEditDaybookEvent, { actions } from "./addEditDaybookEvent";
-import getColorForItems from "../../functions/getColorForItems"
+import {connect} from "react-redux";
+import {daybook_Actions} from '../../reducers/daybookReducer';
+import AddEditDaybookEvent, {actions} from "./addEditDaybookEvent";
+import getColorForItems from "../../functions/getColorForItems";
+import { addZero } from "../../functions/formatFunctions";
 
 
 const iconStyle = constants.iconStyle;
@@ -31,7 +32,7 @@ function mapStateToProps(state) {
 
 @connect(mapStateToProps)
 export default class Daybook extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {ActiveMenuItem: 0, activeDay: new Date};
   }
@@ -43,7 +44,7 @@ export default class Daybook extends Component {
   };
 
   deleteItem(itemDate) {
-      daybook_Actions.deleteEvent(itemDate);
+    daybook_Actions.deleteEvent(itemDate);
   }
 
   toggleSheduleMode = (val) => {
@@ -52,12 +53,18 @@ export default class Daybook extends Component {
 
   getSheduleRightIcons(item) {
     if (this.state.ActiveMenuItem === 0) {
-      return(
+      return (
         <View style={styles.rightElement}>
           <TouchableOpacity
             style={styles.rightElementButton}
             onPress={() => daybook_Actions.updateState(
-              { daybookAction: actions.edit, oldDate: item.date, date: item.date, room: item.room, subject: item.subjectId }
+              {
+                daybookAction: actions.edit,
+                oldDate: item.date,
+                date: item.date,
+                room: item.room,
+                subject: item.subjectId
+              }
             )}
           >
             <Icon
@@ -95,30 +102,17 @@ export default class Daybook extends Component {
     );
   }
 
-  getWeekDay(ind){
-    var gsDayNames = [
-      strings('WeekDays.Sunday'),
-      strings('WeekDays.Monday'),
-      strings('WeekDays.Tuesday'),
-      strings('WeekDays.Wednesday'),
-      strings('WeekDays.Thursday'),
-      strings('WeekDays.Friday'),
-      strings('WeekDays.Saturday')
-    ];
-    return gsDayNames[ind];
-  }
-
   getCurrWeekArr(activeDay) {
     const rez = [];
-    for (let i = 0; i < 7; i++){
+    for (let i = 0; i < 7; i++) {
       const d = new Date(activeDay);
       let day = d.getDay(),
-      diff = d.getDate() - day + (day == 0 ? -6:1) + i; // adjust when day is sunday
+        diff = d.getDate() - day + (day == 0 ? -6 : 1) + i; // adjust when day is sunday
       const rezDate = new Date(d.setDate(diff));
-      rezDate.setHours(0,0,0,0);
+      rezDate.setHours(0, 0, 0, 0);
       rez.push(
         {
-          title: `${this.getWeekDay(rezDate.getDay())} ${rezDate.getDate()} `,
+          title: `${getWeekDay(rezDate.getDay())} ${rezDate.getDate()} `,
           dateForTitle: rezDate.getTime(),
           subjectsQuantity: 0,
           data: []
@@ -133,7 +127,7 @@ export default class Daybook extends Component {
     const firstDateInInterval = currWeekArr[0].dateForTitle;
     const lastDateInInterval = currWeekArr[6].dateForTitle;
 
-    for (let i = 0; i < this.props.daybookEvents.length; i++){
+    for (let i = 0; i < this.props.daybookEvents.length; i++) {
       const item = this.props.daybookEvents[i];
       const currDay = new Date(item.date);
       const endLessonDate = new Date(item.date);
@@ -151,12 +145,12 @@ export default class Daybook extends Component {
         dayInArr.subjectsQuantity++;
         dayInArr.data.push(
           {
-              subject: subjObjName,
-              subjectId: subjObjId,
-              room: item.room,
-              beginsAt: `${currDay.getHours()}:${currDay.getMinutes()}`,
-              endsAt: `${endLessonDate.getHours()}:${endLessonDate.getMinutes()}`,
-              date: item.date
+            subject: subjObjName,
+            subjectId: subjObjId,
+            room: item.room,
+            beginsAt: `${addZero(currDay.getHours())}:${addZero(currDay.getMinutes())}`,
+            endsAt: `${addZero(endLessonDate.getHours())}:${addZero(endLessonDate.getMinutes())}`,
+            date: item.date
           }
         );
       }
@@ -177,7 +171,7 @@ export default class Daybook extends Component {
       {activeDay: date},
       () => this.daybookList.scrollToLocation({
         itemIndex: 0,
-        sectionIndex: date.day()? date.day() -1: 7,
+        sectionIndex: date.day() ? date.day() - 1 : 7,
         animated: true,
         viewPosition: 0.5
       })
@@ -197,8 +191,8 @@ export default class Daybook extends Component {
       }
       rightElement={this.getSheduleRightIcons(item)}
       centerElement={{
-        primaryText: item.subject,
-        secondaryText: item.room,
+        primaryText: item.subject || undefined,
+        secondaryText: item.room || undefined
       }}
       onPress={() => {
       }}
@@ -224,17 +218,14 @@ export default class Daybook extends Component {
     if (this.state.ActiveMenuItem === 0 && subjectsQuantity) {
       return (
         <View style={styles.footerContainer}>
-          <TouchableOpacity
-            onPress={() => this.addEvent(dateForTitle)}
-          >
-            <View style={styles.bottomItemTextContainer}>
-              <Text style={styles.sectionHeaderText}>{strings('Daybook.addSubject')}</Text>
-              <Icon
-                name={'add-circle-outline'}
-                style={iconStyle}
-              />
-            </View>
-          </TouchableOpacity>
+          <View>
+            <Button
+              style={styles.addSubjectButton}
+              onPress={() => this.addEvent(dateForTitle)}
+              primary raised
+              text={strings('Daybook.addSubject')}
+            />
+          </View>
         </View>
       );
     }
@@ -245,7 +236,6 @@ export default class Daybook extends Component {
     return (
       <View style={styles.container}>
         <Toolbar
-
           centerElement={strings('Daybook.title')}
           rightElement={
             <SegmentedControl
@@ -264,7 +254,7 @@ export default class Daybook extends Component {
         <CalendarStrip
           calendarAnimation={{type: 'sequence', duration: 30}}
           daySelectionAnimation={{type: 'border', duration: 200, borderWidth: 1, borderHighlightColor: 'white'}}
-          style={{height: 110, paddingTop: 5, paddingBottom: 5}}
+          style={styles.calendarStrip}
           calendarHeaderStyle={{color: 'black'}}
           calendarColor={'white'}
           dateNumberStyle={{color: 'black'}}
@@ -274,12 +264,18 @@ export default class Daybook extends Component {
           disabledDateNameStyle={{color: 'grey'}}
           disabledDateNumberStyle={{color: 'grey'}}
           showMonth={true}
-          onDateSelected={(date) => {this.scrollToItem(date);}}
-          onWeekChanged={(date) => {this.scrollToItem(date);}}
+          onDateSelected={(date) => {
+            this.scrollToItem(date);
+          }}
+          onWeekChanged={(date) => {
+            this.scrollToItem(date);
+          }}
           iconContainer={{flex: 0.1}}
         />
         <SectionList
-          ref={(ref) => { this.daybookList = ref;}}
+          ref={(ref) => {
+            this.daybookList = ref;
+          }}
           stickySectionHeadersEnabled={false}
           renderItem={this.renderItem}
           renderSectionHeader={this.renderSectionHeader}
@@ -299,7 +295,8 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
-    fontSize: 25
+    fontSize: 25,
+    paddingVertical: 7,
   },
   leftElement: {
     borderRightWidth: 2,
@@ -316,6 +313,11 @@ const styles = StyleSheet.create({
   rightElementStyle: {
     marginRight: 20
   },
+  calendarStrip: {
+    height: 110,
+    paddingTop: 10,
+    paddingBottom: 5
+  },
   subheaderContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -328,23 +330,12 @@ const styles = StyleSheet.create({
     height: 44
   },
   footerContainer: {
-    alignSelf: 'center',
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: 'grey',
-    borderRadius: 50,
-    paddingHorizontal: 15,
-    backgroundColor: COLOR.green50,
-    height: 34,
-    marginVertical: 10,
+    justifyContent: 'center',
+    marginVertical: 10
   },
   sectionHeaderText: {
     fontSize: 24,
     marginRight: 10
-  },
-  bottomItemTextContainer: {
-    flexDirection: 'row'
   }
 });

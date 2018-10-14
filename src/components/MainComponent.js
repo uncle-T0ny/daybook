@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, SafeAreaView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet, Dimensions, Platform } from 'react-native';
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -14,6 +14,8 @@ import Teachers from './Teachers';
 import Settings from './Settings';
 import { strings } from '../functions/i18n';
 
+const {height, width} = Dimensions.get('window');
+
 const screens = {
   daybook: 'daybook',
   subjects: 'subjects',
@@ -21,20 +23,49 @@ const screens = {
   settings: 'settings'
 };
 
+const bottomNavHeight = Platform.OS === 'ios' ? 56 : 85;
 
 const uiTheme = {
+  actionButton: {
+    positionContainer: {
+      bottom: Platform.OS === 'ios' ? 20 : bottomNavHeight + 20
+    }
+  },
   palette: {
-    primaryColor: COLOR.green500,
+    primaryColor: COLOR.green400,
+    accentColor: COLOR.red400
   },
   listItem: {
     container: {
       height: 6,
     },
   },
-  subheader:{
+  subheader: {
     container: {
       backgroundColor: COLOR.grey300,
     },
+  },
+  dialog: {
+        container: {
+          paddingTop: 4,
+        },
+        titleContainer: {
+          paddingBottom: 12,
+        },
+        titleText: {
+          color: 'black',
+        },
+        defaultActionsContainer: {
+          height: 48,
+          marginLeft: -4,
+          justifyContent: 'space-between',
+
+        },
+  },
+  bottomNavigation: {
+    container: {
+      height: bottomNavHeight
+    }
   }
 };
 
@@ -69,7 +100,9 @@ export default class MainComponent extends Component {
           <View style={styles.basicFlex}>
             {this.getScreenComponent()}
           </View>
-          <BottomNavigation active={this.state.active} hidden={false}
+          <BottomNavigation
+            style={{container: {position: 'absolute', width: '100%', top: height - bottomNavHeight}}}
+            active={this.state.active} hidden={false}
                             theme1={{icon: {color: 'yellow'}, iconActive: {color: 'red'}}}
           >
             <BottomNavigation.Action

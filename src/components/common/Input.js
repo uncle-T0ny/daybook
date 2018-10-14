@@ -9,23 +9,30 @@ export default class Input extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
     placeholder: PropTypes.string,
+    onChange: PropTypes.func,
     style: ViewPropTypes.style,
     onChange: PropTypes.func,
     value: PropTypes.string,
+    underlineColorAndroid: PropTypes.string
   };
 
   static defaultProps = {
     autoFocus: false,
     placeholder: '',
     value: '',
+    underlineColorAndroid: 'transparent'
   };
 
   render() {
-    return <TextInput autoFocus={this.props.autoFocus}
-                      placeholder={this.props.placeholder}
-                      style={[styles.input, this.props.style]}
-                      onChangeText={this.props.onChange}
-                      value={this.props.value}/>;
+    return <TextInput
+      autoFocus={this.props.autoFocus}
+      placeholder={this.props.placeholder}
+      style={[styles.input, this.props.style]}
+      onChangeText={this.props.onChange}
+      onFocus={this.props.onFocus}
+      value={this.props.value}
+      underlineColorAndroid={this.props.underlineColorAndroid}
+    />;
   }
 }
 

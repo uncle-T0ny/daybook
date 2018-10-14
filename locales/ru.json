@@ -12,10 +12,10 @@
     "subject": "предмет",
     "room": "кабинет",
     "roomPlaceholder": "укажите номер кабинета",
-    "addSubject": "еще предмет",
+    "addSubject": "Новый предмет",
     "tapToSelect": "нажмите для выбора",
     "addTitle": "Новый урок",
-    "editTitle": "Редактировать расписание"
+    "editTitle": "Редактировать"
   },
   "Settings" : {
     "title": "Настройки"
@@ -25,7 +25,8 @@
     "delete": "Удалить"
   },
   "Teachers" : {
-    "title": "Преподаватели"
+    "title": "Преподаватели",
+    "addTeacher": "Добавить"
   },
   "Navigation": {
     "Daybook": "Дневник",

@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Picker, Platform, Text, TouchableOpacity, DatePickerIOS } from 'react-native';
-import { Dialog, DialogDefaultActions } from 'react-native-material-ui';
+import {
+  StyleSheet,
+  View,
+  Picker,
+  Platform,
+  Text,
+  DatePickerIOS,
+  KeyboardAvoidingView,
+  ScrollView
+} from 'react-native';
+import { Dialog, DialogDefaultActions} from 'react-native-material-ui';
 
 import AndroidDateTimePicker from './../../components/common/AndroidDateTimePicker';
 import Input from './../../components/common/Input';
 import { strings } from './../../functions/i18n';
 import { daybook_Actions } from './../../reducers/daybookReducer';
+import getColorForItems from "../../functions/getColorForItems";
+import PickerWrapperIos from '../common/PickerWrapperIos';
+import AndroidItemPicker from '../common/AndroidItemPicker';
+import { addZero } from "../../functions/formatFunctions";
 
 export const actions = {
   add: 'add',
@@ -32,6 +45,7 @@ export default class AddEditDaybookEvent extends Component {
     super();
     this.state = {iosPickersVisibilityMode: 0}
   }
+
   static propTypes = {
     date: PropTypes.number,
     oldDate: PropTypes.number,
@@ -47,12 +61,15 @@ export default class AddEditDaybookEvent extends Component {
     daybookAction: actions.add
   };
 
-  showIosDatePicker = () => {
-    this.setState({iosPickersVisibilityMode: 1});
+  componentDidMount(){
   }
 
-  showIosSubjectPicker = () => {
-    this.setState({iosPickersVisibilityMode: 2});
+  componentWillUnmount() {
+  }
+
+
+  showIosPicker = (ind) => {
+    this.setState({iosPickersVisibilityMode: ind});
   }
 
   hidePicker = () => {
@@ -102,123 +119,79 @@ export default class AddEditDaybookEvent extends Component {
     return '';
   }
 
-  getIosAndroidPickers = () => {
-    const dateObj = new Date(this.props.date);
+  getContainerBorderColor(dateObj, subj, room){
+    return getColorForItems( dateObj.getHours() + dateObj.getMinutes() + subj + room);
+  }
+
+
+  getIosAndroidPickers = (dateObj) => {
     if (Platform.OS === 'ios') {
       return (
         <View>
-          <View>
-            <View style={styles.pickerPresentation}>
-              <TouchableOpacity
-                style={styles.inputTitlePickerContainer}
-                onPress={this.showIosDatePicker}
+          <PickerWrapperIos
+            title={strings('Daybook.date')}
+            currIndex={1}
+            iosPickersVisibilityMode={this.state.iosPickersVisibilityMode}
+            showIosDatePicker={this.showIosPicker}
+            hidePicker={this.hidePicker}
+            borderBottomColorVal={dateObj.getDate() + dateObj.getHours() + dateObj.getMinutes()}
+            inputValPresentation={`${addZero(dateObj.getDate())}.${addZero(dateObj.getMonth()+1)}.${dateObj.getFullYear()}  ${addZero(dateObj.getHours())}:${addZero(dateObj.getMinutes())}`}
+            pickerComponent={
+              <DatePickerIOS
+                date={new Date(this.props.date)}
+                onDateChange={this.onDateSelect}
+              />}
+          />
+          <PickerWrapperIos
+            title={strings('Daybook.subject')}
+            currIndex={2}
+            iosPickersVisibilityMode={this.state.iosPickersVisibilityMode}
+            showIosDatePicker={this.showIosPicker}
+            hidePicker={this.hidePicker}
+            borderBottomColorVal={this.props.subject}
+            inputValPresentation={this.getSubjectName()}
+            pickerComponent={
+              <Picker
+                selectedValue={this.props.subject}
+                onValueChange={this.onPickerValueChange}
               >
-                <Text style={styles.inputTitlePickerPresentation}>
-                  {strings('Daybook.date')}
-                </Text>
-                <Text style={styles.inputTitle}>
-                  {dateObj.getHours()}-{dateObj.getMinutes()}-{dateObj.getMonth()+1}-{dateObj.getDate()}-{dateObj.getFullYear()}
-                </Text>
-                <Text style={styles.bottomInputTitle}>{strings('Daybook.tapToSelect')}</Text>
-              </TouchableOpacity>
-            </View>
-            {
-              this.state.iosPickersVisibilityMode === 1 &&
-              <View style={styles.pickerItemStyle}>
-                <DatePickerIOS
-                  date={new Date(this.props.date)}
-                  onDateChange={this.onDateSelect}
-                />
-                <TouchableOpacity
-                  onPress={this.hidePicker}
-                >
-                  <Text style={styles.textClose}>
-                    {strings('Common.close')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                {this.renderPickerItems()}
+              </Picker>
             }
-          </View>
-          <View>
-            <View style={styles.pickerPresentation}>
-
-              <TouchableOpacity
-                style={styles.inputTitlePickerContainer}
-                onPress={this.showIosSubjectPicker}
-              >
-                <Text style={styles.inputTitlePickerPresentation}>
-                  {strings('Daybook.subject')}
-                </Text>
-                <Text style={styles.inputTitle}>
-                  {this.getSubjectName()}
-                </Text>
-                <Text style={styles.bottomInputTitle}>{strings('Daybook.tapToSelect')}</Text>
-              </TouchableOpacity>
-            </View>
-            {
-              this.state.iosPickersVisibilityMode === 2 &&
-              <View>
-                <Picker
-                  selectedValue={this.props.subject}
-                  onValueChange={this.onPickerValueChange}>
-                  {this.renderPickerItems()}
-                </Picker>
-                <TouchableOpacity
-                  onPress={this.hidePicker}
-                >
-                  <Text style={styles.textClose}>
-                    {strings('Common.close')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            }
-          </View>
+          />
         </View>
       );
     }
     return (
-      <View>
-        <AndroidDateTimePicker date={this.props.date} onDateSelect={this.onDateSelect}/>
-        <Text style={styles.inputTitle}>
-          {strings('Daybook.subject')}
-        </Text>
-        <Picker style={{flex: 1}}
-          selectedValue={this.props.subject}
-          onValueChange={this.onPickerValueChange}>
-          {this.renderPickerItems()}
-        </Picker>
+      <View style={{flex: 1,}}>
+        <AndroidDateTimePicker
+          date={this.props.date}
+          onDateSelect={this.onDateSelect}
+        />
+        <AndroidItemPicker
+          subject={this.props.subject}
+          onPickerValueChange={this.onPickerValueChange}
+          items={this.renderPickerItems()}
+        />
       </View>
     );
   }
 
   render() {
+    const dateObj = new Date(this.props.date);
     if (this.props.daybookAction === actions.nope) {
       return null;
     }
     return(
-        <View style={styles.dialogContainer}>
-          <Dialog style={{container: styles.dialogInnerContainer}}>
-            <Dialog.Title style={{titleContainer: styles.topTitleContainer}}><Text style={styles.topTitle}>{this.getDialogTitle()}</Text></Dialog.Title>
-            <Dialog.Content>
-              <View style={styles.containerIos}>
-                {this.getIosAndroidPickers()}
-                <View style={styles.inputContainer}>
-                  <Text style={styles.inputTitle}>
-                    {strings('Daybook.room')}
-                  </Text>
-                  <Input autoFocus={true} style={styles.input}
-                         value={this.props.room}
-                         placeholder={strings('Daybook.roomPlaceholder')}
-                         onChange={(value) => daybook_Actions.updateState({ room: value })}
-                  />
-                </View>
-              </View>
-            </Dialog.Content>
+      <View style={styles.dialogContainer}>
+        <KeyboardAvoidingView style={{width: '100%'}} behavior="padding">
+          <Dialog style={{container: [styles.dialogInnerContainer, {borderColor: this.getContainerBorderColor(dateObj, this.props.subject, Number(this.props.room))}]}}>
             <Dialog.Actions>
               <DialogDefaultActions
-                actions={['Cancel', 'Save']}
+                style={{defaultActionsContainer: {height: 20}}}
+                actions={['Cancel', 'OK']}
                 onActionPress={(action) => {
-                  if (action === 'Save') {
+                  if (action === 'OK') {
                     this.addEditEvent()
                   } else {
                     this.close();
@@ -226,8 +199,35 @@ export default class AddEditDaybookEvent extends Component {
                 }}
               />
             </Dialog.Actions>
+
+            <Dialog.Title style={{titleContainer: styles.topTitleContainer}}>
+              <Text style={[styles.topTitle]}>{this.getDialogTitle()}</Text>
+            </Dialog.Title>
+            <Dialog.Content>
+              <ScrollView>
+                <View style={styles.containerIos}>
+                  {this.getIosAndroidPickers(dateObj)}
+
+                  <View style={styles.roomContainer}>
+                    <Text style={styles.inputTitle}>
+                      {strings('Daybook.room')}
+                    </Text>
+                    <Input
+                           autoFocus={true}
+                           style={[styles.input, {borderBottomColor: getColorForItems(Number(this.props.room))}]}
+                           value={this.props.room}
+                           placeholder={strings('Daybook.roomPlaceholder')}
+                           onChange={(value) => {daybook_Actions.updateState({ room: value })}}
+                           onFocus={this.hidePicker}
+                           underlineColorAndroid={'transparent'}
+                    />
+                  </View>
+                </View>
+              </ScrollView>
+            </Dialog.Content>
           </Dialog>
-        </View>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -247,20 +247,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     height: '100%'
   },
+  defaultActionsContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  roomContainer: {
+    width: '66%',
+    alignSelf: 'center'
+  },
   input: {
-    flex: 1,
-    marginVertical: 10,
-    marginHorizontal: 10
+    width: '100%',
+    paddingVertical: 3,
+    borderBottomWidth: 1,
+    textAlign: 'center'
   },
   inputTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: 'black',
-    marginRight: 5,
-    alignSelf: 'center'
+    justifyContent: 'center',
+    textAlign: 'center',
   },
-  inputContainer: {
-    flexDirection: 'row'
+  androidInputTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'black',
+    alignSelf: 'center',
+    marginTop: 10
   },
   inputTitleContainerIos: {
     flexDirection: 'row'
@@ -275,67 +288,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around'
   },
-  pickerPresentation: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 25,
-  },
-  inputTitlePickerPresentation: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
-    alignSelf: 'center'
-  },
   dialogContainer: {
     position: 'absolute',
     zIndex: 1000,
     elevation: 1000,
     width: '100%',
+    height: '100%',
     alignItems: 'center',
-    justifyContent: 'center'
+    paddingTop: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)'
   },
   dialogInnerContainer: {
-    width: '95%',
-    borderWidth: 1,
-    borderRadius: 10
-  },
-  bottomInputTitle: {
-    position: 'absolute',
-    color: 'grey',
-    bottom: -13,
-    fontSize: 12,
-    alignSelf: 'center'
-  },
-  inputTitlePickerContainer: {
-    flex: 1
-  },
-  pickerItemStyle: {
-    marginBottom: 15
-  },
-  textClose: {
-    color: 'red',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginRight: 5,
-    alignSelf: 'center'
+    width: '100%',
+    borderWidth: 2,
+    borderRadius: 10,
   },
   topTitle: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: 'bold',
     color: 'black',
     alignSelf: 'center'
   },
   topTitleContainer: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 5,
+    paddingBottom: 0
   }
 })
-
-const buttonStyle = StyleSheet.create({
-  container: {
-    alignSelf: 'center',
-    marginVertical: 10
-  },
-});

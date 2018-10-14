@@ -15,6 +15,20 @@ I18n.translations = {
   ru,
 };
 
+
+export function getWeekDay(ind){
+  var gsDayNames = [
+    strings('WeekDays.Sunday'),
+    strings('WeekDays.Monday'),
+    strings('WeekDays.Tuesday'),
+    strings('WeekDays.Wednesday'),
+    strings('WeekDays.Thursday'),
+    strings('WeekDays.Friday'),
+    strings('WeekDays.Saturday')
+  ];
+  return gsDayNames[ind];
+}
+
 export function strings(name, params = {}) {
   return I18n.t(name, params);
 }

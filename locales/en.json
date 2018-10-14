@@ -25,7 +25,8 @@
     "subject": "Subject"
   },
   "Teachers" : {
-    "title": "Teachers"
+    "title": "Teachers",
+    "addTeacher": "Add teacher"
   },
   "Navigation": {
     "Daybook": "Daybook",

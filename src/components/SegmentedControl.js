@@ -6,6 +6,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+
 export default class SegmentedControl extends Component {
   getButtons(){
     return this.props.itemNames.map(

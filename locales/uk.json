@@ -12,8 +12,8 @@
     "subject": "предмет",
     "room": "кабінет",
     "roomPlaceholder": "вкажіть номер кабінету",
-    "addSubject": "додати предмет",
-    "tapToSelect": "натисніть для вибору",
+    "addSubject": "Додати предмет",
+    "tapToSelect": "Натисніть для вибору",
     "addTitle": "Новий урок",
     "editTitle": "Редагувати розклад"
   },
@@ -25,7 +25,8 @@
     "delete": "Видалити"
   },
   "Teachers" : {
-    "title": "Викладачі"
+    "title": "Викладачі",
+    "addTeacher": "Додати"
   },
   "Navigation": {
     "Daybook": "Щоденник",
