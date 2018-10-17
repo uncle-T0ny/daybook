@@ -13,7 +13,7 @@ export default class PickerWrapperIos extends Component {
     showIosDatePicker: PropTypes.func,
     hidePicker: PropTypes.func,
     borderBottomColorVal: PropTypes.oneOfType([ PropTypes.string, PropTypes.number]),
-    inputValPresentation: PropTypes.func,
+    inputValPresentation: PropTypes.string,
     pickerComponent: PropTypes.element
   };
 

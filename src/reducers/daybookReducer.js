@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import R from 'ramda';
-import { actions } from '../components/Daybook/addEditDaybookEvent';
+import { actions } from '../components/Daybook/AddEditDaybookEvent';
 import { daybookActions } from './../saga/actions.js';
 
 

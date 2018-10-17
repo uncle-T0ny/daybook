@@ -15,7 +15,7 @@ import SegmentedControl from '../SegmentedControl';
 import constants from '../../constants';
 import {connect} from "react-redux";
 import {daybook_Actions} from '../../reducers/daybookReducer';
-import AddEditDaybookEvent, {actions} from "./addEditDaybookEvent";
+import AddEditDaybookEvent, {actions} from "./AddEditDaybookEvent";
 import getColorForItems from "../../functions/getColorForItems";
 import { addZero } from "../../functions/formatFunctions";
 
